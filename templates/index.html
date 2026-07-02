@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ConceptCheckmate — Spoken Concept Assessment</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="bg-grid"></div>
+
+<header class="top-bar">
+  <div class="brand">
+    <div class="brand-mark">CC</div>
+    <div class="brand-text">
+      <span class="brand-name">ConceptCheckmate</span>
+      <span class="brand-sub">Spoken Concept Understanding Engine</span>
+    </div>
+  </div>
+  <div class="engine-status" id="engineStatus">
+    <span class="dot"></span> <span id="engineLabel">checking engine…</span>
+  </div>
+</header>
+
+<main class="layout">
+
+  <!-- LEFT: Input -->
+  <section class="panel input-panel">
+    <div class="panel-eyebrow">01 — Capture</div>
+    <h2 class="panel-title">Explain the concept</h2>
+
+    <label class="field-label">Choose a topic</label>
+    <select id="topicSelect" class="control"></select>
+
+    <div id="customTopicBox" class="custom-topic-box hidden">
+      <label class="field-label">Custom topic title</label>
+      <input id="customTitle" class="control" placeholder="e.g. Binary Search Trees">
+      <label class="field-label">Ideal / model answer</label>
+      <textarea id="customIdeal" class="control textarea" rows="4" placeholder="Type the reference explanation the student's answer will be compared against…"></textarea>
+    </div>
+
+    <label class="field-label">Your spoken explanation</label>
+    <div class="mic-row">
+      <button id="micBtn" class="mic-btn">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+        <span id="micLabel">Start speaking</span>
+      </button>
+      <span id="recIndicator" class="rec-indicator hidden">● recording</span>
+    </div>
+    <textarea id="transcript" class="control textarea transcript-box" rows="7" placeholder="Live transcript appears here — or type/paste an explanation manually."></textarea>
+
+    <button id="analyzeBtn" class="primary-btn">
+      Analyze Understanding
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </button>
+    <p id="errorMsg" class="error-msg hidden"></p>
+  </section>
+
+  <!-- RIGHT: Results -->
+  <section class="panel results-panel">
+    <div class="panel-eyebrow">02 — Assessment Report</div>
+
+    <div id="emptyState" class="empty-state">
+      <div class="empty-mark">?</div>
+      <p>Your mastery report will render here after analysis —<br>score, concept coverage, and personalized coaching notes.</p>
+    </div>
+
+    <div id="reportBody" class="report-body hidden">
+
+      <div class="score-row">
+        <div class="gauge-wrap">
+          <svg viewBox="0 0 160 100" class="gauge">
+            <path d="M10,90 A70,70 0 0,1 150,90" class="gauge-track"/>
+            <path id="gaugeArc" d="M10,90 A70,70 0 0,1 150,90" class="gauge-arc"/>
+          </svg>
+          <div class="gauge-center">
+            <span id="scoreNum" class="score-num">0</span>
+            <span class="score-den">/100</span>
+          </div>
+        </div>
+        <div class="score-meta">
+          <span id="bandTag" class="band-tag">—</span>
+          <h3 id="topicTitleOut" class="topic-title-out">—</h3>
+          <div class="meta-line"><span>Semantic similarity to ideal answer</span><b id="simPct">0%</b></div>
+          <div class="meta-line"><span>Sentences analyzed</span><b id="sentCount">0</b></div>
+        </div>
+      </div>
+
+      <div class="columns">
+        <div class="concept-col">
+          <h4 class="col-title matched-title">✓ Concepts Covered</h4>
+          <div id="matchedList" class="chip-list"></div>
+        </div>
+        <div class="concept-col">
+          <h4 class="col-title partial-title">◐ Partially Explained</h4>
+          <div id="partialList" class="chip-list"></div>
+        </div>
+        <div class="concept-col">
+          <h4 class="col-title missing-title">✗ Missing Concepts</h4>
+          <div id="missingList" class="chip-list"></div>
+        </div>
+      </div>
+
+      <div id="misconceptionBox" class="misconception-box hidden">
+        <h4 class="col-title misc-title">⚠ Possible Misconceptions</h4>
+        <ul id="misconceptionList"></ul>
+      </div>
+
+      <div class="feedback-box">
+        <h4 class="col-title">Personalized Feedback</h4>
+        <pre id="feedbackText" class="feedback-text"></pre>
+      </div>
+
+      <button id="downloadBtn" class="secondary-btn">Download Report (.txt)</button>
+    </div>
+  </section>
+
+</main>
+
+<footer class="bottom-note">
+  Speech → NLP Preprocessing → Concept Embedding → Similarity Scoring → Gap Analysis → Feedback Generation
+</footer>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

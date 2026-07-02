@@ -1,0 +1,12 @@
+# Core (required — lightweight, installs in seconds, no internet needed at runtime)
+flask==3.0.3
+flask-cors==4.0.1
+scikit-learn==1.5.1
+numpy==1.26.4
+
+# Optional (nice-to-have — enables true semantic embeddings instead of TF-IDF).
+# The app runs perfectly fine without these; nlp_engine.py auto-detects and
+# falls back to TF-IDF + cosine similarity if they are not installed.
+# Uncomment before your interview if you have time/bandwidth to install them:
+# sentence-transformers==3.0.1
+# nltk==3.8.1
