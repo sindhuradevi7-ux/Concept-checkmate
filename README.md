@@ -1,4 +1,7 @@
 # ConceptCheckmate
+
+Live: https://concept-checkmate.vercel.app/
+
 ### An AI system that listens to a student's spoken explanation, checks true understanding, and gives personalized feedback.
 
 ---
